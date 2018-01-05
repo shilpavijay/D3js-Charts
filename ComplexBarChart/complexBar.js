@@ -33,9 +33,11 @@ var x = d3.scale.linear()
 		})])
 		.range([0,width])
 
-var y = d3.scale.linear()
- 		.domain([0,data.length])
- 		.range([0,height])
+var y = d3.scale.ordinal()
+ 		.domain(data.map(function(entry){
+ 			return entry.key
+ 		}))
+ 		.rangeBands([0,height])
 
 var svg = d3.select("body").append("svg")
 			.attr("id","chart")
@@ -53,14 +55,14 @@ function plot(param) {
 			.append("rect")	
 			.classed("bar",true)
 			.attr("y",function(d,i){
-				return y(i);
+				return y(d.key);
 			})
 			.attr("x",0)
 			.attr("width",function(d,i){
 				return x(d.value);
 			})
 			.attr("height",function(d,i){
-				return y(1)-1;
+				return y.rangeBand()-1;
 			});
 
 	this.selectAll(".bar-label")
@@ -73,9 +75,9 @@ function plot(param) {
 			})
 			.attr("dx",-2)
 			.attr("y", function(d,i){
-				return y(i);
+				return y(d.key);
 			})
-			.attr("dy",y(1)/2)
+			.attr("dy",y.rangeBand()/2)
 			.text(function(d,i){
 				return d.value;
 			})	
