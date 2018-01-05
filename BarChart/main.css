@@ -13,3 +13,8 @@ body,html{
 	fill: purple;
 	shape-rendering: crispEdges;
 }
+.bar-label {
+	text-anchor:end;
+	fill: white;
+	font-size: 15px;
+}

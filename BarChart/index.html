@@ -15,7 +15,7 @@ var w = 800;
 var data = [102,34,566,89,70,86,34,89,100];
 var x = d3.scale.linear()
 		.domain([0,d3.max(data)])
-		.range([0,w])
+		.range([0,w-5])
 
 var y = d3.scale.linear()
  		.domain([0,data.length])
@@ -40,7 +40,24 @@ svg.selectAll(".bar")
 		})
 		.attr("height",function(d,i){
 			return y(1)-1;
-		})				
+		});
+
+svg.selectAll(".bar-label")
+	.data(data)
+	.enter()
+		.append("text")
+		.classed("bar-label",true)
+		.attr("x",function(d,i){
+			return x(d);
+		})
+		.attr("dx",-2)
+		.attr("y", function(d,i){
+			return y(i);
+		})
+		.attr("dy",y(1)/2)
+		.text(function(d,i){
+			return d;
+		})			
 </script>	
 </body>
 </html>
