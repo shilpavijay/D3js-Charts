@@ -1,4 +1,5 @@
 D3.js Charts
 -------------
 
-- [Creating a simple Bar Chart](/BarChart/simpleBar.js)
+- [A simple Bar Chart](/SimpleBarChart)
+- [An Interactive Bar Chart ](/ComplexBarChart)
