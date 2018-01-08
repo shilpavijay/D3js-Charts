@@ -39,6 +39,12 @@ var y = d3.scale.ordinal()
  		}))
  		.rangeBands([0,height])
 
+var linearColorScale = d3.scale.linear()
+						.domain([0,data.length])
+						.range(['#FF0000','#FFFF00'])
+
+var ordinalColorScale = d3.scale.category10();						
+
 var svg = d3.select("body").append("svg")
 			.attr("id","chart")
 			.attr("height",h)
@@ -63,6 +69,10 @@ function plot(param) {
 			})
 			.attr("height",function(d,i){
 				return y.rangeBand()-1;
+			})
+			.style("fill", function(d,i){
+				return ordinalColorScale(i)
+				// return linearColorScale(i);
 			});
 
 	this.selectAll(".bar-label")
