@@ -19,8 +19,8 @@ var data = [
 
 var margin = {
 	top: 20,
-	bottom: 20,
-	left: 20,
+	bottom: 40,
+	left: 80,
 	right: 20
 }
 
@@ -43,7 +43,15 @@ var linearColorScale = d3.scale.linear()
 						.domain([0,data.length])
 						.range(['#FF0000','#FFFF00'])
 
-var ordinalColorScale = d3.scale.category10();						
+var ordinalColorScale = d3.scale.category10();	
+
+var xAxis = d3.svg.axis()
+			.scale(x)
+			.orient("bottom")
+
+var yAxis = d3.svg.axis()
+			.scale(y)
+			.orient("left")							
 
 var svg = d3.select("body").append("svg")
 			.attr("id","chart")
@@ -90,7 +98,16 @@ function plot(param) {
 			.attr("dy",y.rangeBand()/2)
 			.text(function(d,i){
 				return d.value;
-			})	
+			})
+	this.append("g")	
+		.classed("x axis", true)
+		.attr("transform","translate(" + 0 + "," + height + ")")
+		.call(xAxis);
+
+	this.append("g")
+		.classed("y axis", true)
+		.attr("transform","translate(0,0)")
+		.call(yAxis);
 }
 
 plot.call(chart,{
