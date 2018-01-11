@@ -14,8 +14,8 @@ body,html{
 	shape-rendering: crispEdges;
 }
 .bar-label {
-	text-anchor:end;
-	fill: white;
+	text-anchor: middle;
+	fill: black;
 	font-size: 15px;
 }
 

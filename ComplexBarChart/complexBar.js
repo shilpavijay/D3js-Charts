@@ -18,26 +18,40 @@ var data = [
 ];
 
 var margin = {
-	top: 20,
+	top: 40,
 	bottom: 40,
-	left: 80,
+	left: 60,
 	right: 20
 }
 
 var height = h - margin.top - margin.bottom;
 var width = w - margin.left - margin.right;
 
-var x = d3.scale.linear()
+// Horizontal chart
+// var x = d3.scale.linear()
+// 		.domain([0,d3.max(data,function(d){
+// 			return d.value
+// 		})])
+// 		.range([0,width])
+
+// var y = d3.scale.ordinal()
+//  		.domain(data.map(function(entry){
+//  			return entry.key
+//  		}))
+//  		.rangeBands([0,height])
+
+//Vertical chart
+var x = d3.scale.ordinal()
+		.domain(data.map(function(entry){
+			return entry.key
+		}))
+		.rangeBands([0,width])
+
+var y = d3.scale.linear()
 		.domain([0,d3.max(data,function(d){
 			return d.value
 		})])
-		.range([0,width])
-
-var y = d3.scale.ordinal()
- 		.domain(data.map(function(entry){
- 			return entry.key
- 		}))
- 		.rangeBands([0,height])
+		.range([height,0])
 
 var linearColorScale = d3.scale.linear()
 						.domain([0,data.length])
@@ -69,14 +83,19 @@ function plot(param) {
 			.append("rect")	
 			.classed("bar",true)
 			.attr("y",function(d,i){
-				return y(d.key);
+				return y(d.value);
 			})
-			.attr("x",0)
+			.attr("x",function(d,i){
+				return x(d.key);
+			})
+			.attr("dy",-8)
 			.attr("width",function(d,i){
-				return x(d.value);
+				// return x(d.value);
+				return x.rangeBand();
 			})
 			.attr("height",function(d,i){
-				return y.rangeBand()-1;
+				// return y.rangeBand()-1;
+				return height - y(d.value);
 			})
 			.style("fill", function(d,i){
 				return ordinalColorScale(i)
@@ -89,13 +108,13 @@ function plot(param) {
 			.append("text")
 			.classed("bar-label",true)
 			.attr("x",function(d,i){
-				return x(d.value);
+				return x(d.key);
 			})
-			.attr("dx",-2)
+			.attr("dx", x.rangeBand()/2)
 			.attr("y", function(d,i){
-				return y(d.key);
+				return y(d.value);
 			})
-			.attr("dy",y.rangeBand()/2)
+			.attr("dy",-6)
 			.text(function(d,i){
 				return d.value;
 			})
