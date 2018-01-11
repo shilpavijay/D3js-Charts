@@ -19,7 +19,7 @@ var data = [
 
 var margin = {
 	top: 40,
-	bottom: 60,
+	bottom: 80,
 	left: 60,
 	right: 20
 }
@@ -90,7 +90,7 @@ var chart = svg.append("g")
 
 function plot(param) {
 	this.append("g")
-		.call(yGridlines)
+		.call(param.gridlines)
 		.classed("gridlines",true)
 		.attr("transform", "translate(0,0)")
 	// this.append("g")
@@ -141,7 +141,7 @@ function plot(param) {
 	this.append("g")	
 		.classed("x axis", true)
 		.attr("transform","translate(" + 0 + "," + height + ")")
-		.call(xAxis)
+		.call(param.axis.x)
 			.selectAll("text")
 				.style("text-anchor", "end")
 				.attr("dx", -8)
@@ -151,9 +151,30 @@ function plot(param) {
 	this.append("g")
 		.classed("y axis", true)
 		.attr("transform","translate(0,0)")
-		.call(yAxis);
+		.call(param.axis.y);
+
+	this.select(".y.axis")
+		.append("text")
+		.attr("x", 0)
+		.attr("y", 0)
+		.style("text-anchor", "end")
+		.attr("transform", "translate(-40," + height/2 +") rotate(-90)")
+		.text("Units sold");
+
+	this.select(".x.axis")
+		.append("text")
+		.attr("x", 0)
+		.attr("y", 0)
+		.style("text-anchor", "end")
+		.attr("transform", "translate(" + width/2 + ", 75)")
+		.text("Donut Type");
 }
 
 plot.call(chart,{
-	data: data
+	data: data,
+	axis: {
+		x: xAxis,
+		y: yAxis
+	},
+	gridlines: yGridlines
 });
