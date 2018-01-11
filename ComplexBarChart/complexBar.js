@@ -51,7 +51,7 @@ var y = d3.scale.linear()
 		.domain([0,d3.max(data,function(d){
 			return d.value
 		})])
-		.range([height,0])
+		.range([height,0]);			
 
 var linearColorScale = d3.scale.linear()
 						.domain([0,data.length])
@@ -67,6 +67,18 @@ var yAxis = d3.svg.axis()
 			.scale(y)
 			.orient("left")							
 
+var yGridlines = d3.svg.axis()
+				.scale(y)
+				.tickSize(-width,0,0)
+				.tickFormat("")
+				.orient("left")
+
+// var xGridlines = d3.svg.axis()
+// 				  .scale(x)
+// 				  .tickSize(-height,0,0)
+// 				  .tickFormat("")
+// 				  .orient("bottom")
+
 var svg = d3.select("body").append("svg")
 			.attr("id","chart")
 			.attr("height",h)
@@ -77,6 +89,14 @@ var chart = svg.append("g")
 			.attr("transform","translate(" + margin.left + "," + margin.top + ")");			
 
 function plot(param) {
+	this.append("g")
+		.call(yGridlines)
+		.classed("gridlines",true)
+		.attr("transform", "translate(0,0)")
+	// this.append("g")
+	// 	.call(xGridlines)
+	// 	.classed("gridlines",true)
+	// 	.attr("transform", "translate(" + 0 + "," + height + ")")
  	this.selectAll(".bar")
 		.data(param.data)
 		.enter()
