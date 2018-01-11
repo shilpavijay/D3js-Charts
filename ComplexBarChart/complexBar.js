@@ -19,7 +19,7 @@ var data = [
 
 var margin = {
 	top: 40,
-	bottom: 40,
+	bottom: 60,
 	left: 60,
 	right: 20
 }
@@ -141,7 +141,12 @@ function plot(param) {
 	this.append("g")	
 		.classed("x axis", true)
 		.attr("transform","translate(" + 0 + "," + height + ")")
-		.call(xAxis);
+		.call(xAxis)
+			.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("dx", -8)
+				.attr("dy", 5)
+				.attr("transform", "translate(0,0) rotate(-45)");
 
 	this.append("g")
 		.classed("y axis", true)
