@@ -86,7 +86,15 @@ var svg = d3.select("body").append("svg")
 
 var chart = svg.append("g")
 			.classed("plotBar",true)
-			.attr("transform","translate(" + margin.left + "," + margin.top + ")");			
+			.attr("transform","translate(" + margin.left + "," + margin.top + ")");		
+
+var controls = d3.select("body")
+				.append("div")
+				.attr("id","controls");
+
+var sort_btn = controls.append("button")
+				.html("Sort data: Ascending")
+				.attr("state", 0);								
 
 function plot(param) {
 	this.append("g")
@@ -169,6 +177,24 @@ function plot(param) {
 		.attr("transform", "translate(" + width/2 + ", 75)")
 		.text("Donut Type");
 }
+
+
+sort_btn.on("click", function(){
+	var self = d3.select(this);
+	var state = +self.attr("state");
+	var txt = "Sort data: ";
+
+	if(state === 0){
+		state = 1;
+		txt += "Descending";
+	} else if(state === 1){
+		state = 0;
+		txt += "Ascending"
+	}
+
+	self.attr("state", state);
+	self.html(txt);
+})
 
 plot.call(chart,{
 	data: data,
