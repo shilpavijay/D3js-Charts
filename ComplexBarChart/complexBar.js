@@ -146,6 +146,10 @@ function drawAxis(param) {
 		.text("Donut Type");
 	} else {
 		this.selectAll("g.x.axis")
+			.transition()
+			.duration(100)
+			.ease("bounce")
+			.delay(50)
 			.call(param.axis.x)
 		this.selectAll(".x-axis-label")
 			.style("text-anchor", "end")
@@ -185,6 +189,10 @@ function plot(param) {
 
 	//update()
 	this.selectAll(".bar")
+		.transition()
+		.duration(100)
+		.ease("bounce")
+		.delay(50)
 		.attr("y",function(d,i){
 				return y(d.value);
 			})
@@ -206,6 +214,10 @@ function plot(param) {
 			});
 
 	this.selectAll(".bar-label")
+		.transition()
+		.duration(100)
+		.ease("bounce")
+		.delay(50)
 		.attr("x",function(d,i){
 				return x(d.key);
 			})
