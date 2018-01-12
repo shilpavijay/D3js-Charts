@@ -159,7 +159,6 @@ function drawAxis(param) {
 		this.selectAll("g.y.axis")
 			.call(param.axis.y)
 	}
-	
 }										
 
 
@@ -180,6 +179,13 @@ function plot(param) {
 		.enter()
 			.append("rect")	
 			.classed("bar",true)
+			.on("mouseover", function(d,i){
+				d3.select(this).style("fill","pink")
+			})
+			.on("mouseout", function(d,i){
+				d3.select(this).style("fill", ordinalColorScale(i))
+			})
+			// .on("mousemove", function(d,i){});
 
 	this.selectAll(".bar-label")
 		.data(param.data)
