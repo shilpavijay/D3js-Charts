@@ -94,17 +94,11 @@ var controls = d3.select("body")
 
 var sort_btn = controls.append("button")
 				.html("Sort data: Ascending")
-				.attr("state", 0);								
+				.attr("state", 0);		
 
-function plot(param) {
-	x.domain(data.map(function(entry){
-			return entry.key
-		}));
-	y.domain([0,d3.max(data,function(d){
-			return d.value
-		})]);
-
-
+function drawAxis(param) {
+	if (param.initialize) {
+		//draw Gridlines
 	this.append("g")
 		.call(param.gridlines)
 		.classed("gridlines",true)
@@ -114,6 +108,67 @@ function plot(param) {
 	// 	.call(xGridlines)
 	// 	.classed("gridlines",true)
 	// 	.attr("transform", "translate(" + 0 + "," + height + ")")
+
+	// X Axis
+	this.append("g")	
+		.classed("x axis", true)
+		.attr("transform","translate(" + 0 + "," + height + ")")
+		.call(param.axis.x)
+			.selectAll("text")
+				.classed("x-axis-label", true)
+				.style("text-anchor", "end")
+				.attr("dx", -8)
+				.attr("dy", 5)
+				.attr("transform", "translate(0,0) rotate(-45)");
+
+	// Y Axis
+	this.append("g")
+		.classed("y axis", true)
+		.attr("transform","translate(0,0)")
+		.call(param.axis.y);
+
+	// X Label
+	this.select(".y.axis")
+		.append("text")
+		.attr("x", 0)
+		.attr("y", 0)
+		.style("text-anchor", "end")
+		.attr("transform", "translate(-40," + height/2 +") rotate(-90)")
+		.text("Units sold");
+
+	// Y Label
+	this.select(".x.axis")
+		.append("text")
+		.attr("x", 0)
+		.attr("y", 0)
+		.style("text-anchor", "end")
+		.attr("transform", "translate(" + width/2 + ", 75)")
+		.text("Donut Type");
+	} else {
+		this.selectAll("g.x.axis")
+			.call(param.axis.x)
+		this.selectAll(".x-axis-label")
+			.style("text-anchor", "end")
+			.attr("dx", -8)
+			.attr("dy", 5)
+			.attr("transform", "translate(0,0) rotate(-45)");
+		this.selectAll("g.y.axis")
+			.call(param.axis.y)
+	}
+	
+}										
+
+
+function plot(param) {
+	x.domain(data.map(function(entry){
+			return entry.key
+		}));
+	y.domain([0,d3.max(data,function(d){
+			return d.value
+		})]);
+
+	//Draw Gridlines, Axis and Axis Labels
+	drawAxis.call(this,param)
 
 	//enter()
 	this.selectAll(".bar")
@@ -163,7 +218,6 @@ function plot(param) {
 				return d.value;
 			});
 
-
 	//exit()
 	this.select(".bar")
 		.data(param.data)
@@ -174,80 +228,6 @@ function plot(param) {
 		.data(param.data)
 		.exit()
 		.remove()
-
-
- 	// this.selectAll(".bar")
-		// .data(param.data)
-		// .enter()
-		// 	.append("rect")	
-		// 	.classed("bar",true)
-		// 	.attr("y",function(d,i){
-		// 		return y(d.value);
-		// 	})
-		// 	.attr("x",function(d,i){
-		// 		return x(d.key);
-		// 	})
-		// 	.attr("dy",-8)
-		// 	.attr("width",function(d,i){
-		// 		// return x(d.value);
-		// 		return x.rangeBand();
-		// 	})
-		// 	.attr("height",function(d,i){
-		// 		// return y.rangeBand()-1;
-		// 		return height - y(d.value);
-		// 	})
-		// 	.style("fill", function(d,i){
-		// 		return ordinalColorScale(i)
-		// 		// return linearColorScale(i);
-		// 	});
-
-	// this.selectAll(".bar-label")
-	// 	.data(param.data)
-	// 	.enter()
-	// 		.append("text")
-	// 		.classed("bar-label",true)
-	// 		.attr("x",function(d,i){
-	// 			return x(d.key);
-	// 		})
-	// 		.attr("dx", x.rangeBand()/2)
-	// 		.attr("y", function(d,i){
-	// 			return y(d.value);
-	// 		})
-	// 		.attr("dy",-6)
-	// 		.text(function(d,i){
-	// 			return d.value;
-	// 		})
-
-	this.append("g")	
-		.classed("x axis", true)
-		.attr("transform","translate(" + 0 + "," + height + ")")
-		.call(param.axis.x)
-			.selectAll("text")
-				.style("text-anchor", "end")
-				.attr("dx", -8)
-				.attr("dy", 5)
-				.attr("transform", "translate(0,0) rotate(-45)");
-
-	this.append("g")
-		.classed("y axis", true)
-		.attr("transform","translate(0,0)")
-		.call(param.axis.y);
-
-	this.select(".y.axis")
-		.append("text")
-		.attr("x", 0)
-		.attr("y", 0)
-		.style("text-anchor", "end")
-		.attr("transform", "translate(-40," + height/2 +") rotate(-90)")
-		.text("Units sold");
-
-	this.select(".x.axis")
-		.append("text")
-		.attr("x", 0)
-		.attr("y", 0)
-		.style("text-anchor", "end")
-		.attr("transform", "translate(" + width/2 + ", 75)")
-		.text("Donut Type");
 }
 
 
@@ -271,7 +251,7 @@ sort_btn.on("click", function(){
 		txt += "Ascending"
 		data.sort(descending)
 	}
-	console.log(data)
+	// console.log(data)
 	self.attr("state", state);
 	self.html(txt);
 
@@ -281,9 +261,9 @@ sort_btn.on("click", function(){
 			x: xAxis,
 			y: yAxis
 		},
-		gridlines: yGridlines
-});
-
+		gridlines: yGridlines,
+		initialize: false
+	});
 
 })
 
@@ -293,5 +273,6 @@ plot.call(chart,{
 		x: xAxis,
 		y: yAxis
 	},
-	gridlines: yGridlines
+	gridlines: yGridlines,
+	initialize: true
 });
