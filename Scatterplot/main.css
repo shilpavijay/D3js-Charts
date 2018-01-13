@@ -32,7 +32,7 @@ body,html{
 	shape-rendering: crispEdges;
 }
 .point {
-	fill: yellow;
+	fill: blue;
 }
 .trendlines {
 	fill : none;
