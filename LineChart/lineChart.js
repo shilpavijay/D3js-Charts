@@ -87,6 +87,16 @@ var line = d3.svg.line()
 				return y(d.value)
 			});
 
+var area = d3.svg.area()
+			.x(function(d){
+				var date = dateparser(d.date);
+				return x(date)
+			})
+			.y0(height)
+			.y1(function(d){
+				return y(d.value)
+			});				
+
 function plot(params){
 
 	this.append("g")
@@ -100,6 +110,12 @@ function plot(params){
 		.call(params.axis.y)
 
 	//enter()
+	this.selectAll(".fillArea")
+		.data([params.data])
+		.enter()
+			.append("path")
+			.classed("fillArea",true)
+
 	this.selectAll(".trendlines")
 		.data([params.data])
 		.enter()
@@ -114,6 +130,11 @@ function plot(params){
 			.attr("r",2)
 
 	//update()
+	this.selectAll(".fillArea")
+		.attr("d", function(d){
+			return area(d)
+		});
+
 	this.selectAll(".trendlines")
 		.attr("d", function(d){
 			return line(d)
@@ -127,6 +148,11 @@ function plot(params){
 			return y(d.value);
 		});
 	//exit()
+	this.selectAll(".fillArea")
+		.data([params.data])
+		.exit()
+		.remove()
+		
 	this.selectAll(".trendlines")
 		.data([params.data])
 		.exit()

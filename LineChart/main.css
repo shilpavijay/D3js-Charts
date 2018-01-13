@@ -38,5 +38,10 @@ body,html{
 	fill : none;
 	stroke: green;
 	stroke-width: 3px;
-
+}
+.fillArea {
+	opacity: 0.25;
+	fill: lime;
+	stroke: lime;
+	stroke-width: 1px;
 }
