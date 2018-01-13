@@ -38,6 +38,7 @@ body,html{
 	fill : none;
 	stroke: green;
 	stroke-width: 3px;
+	stroke-dasharray: 2px;
 }
 .fillArea {
 	opacity: 0.25;

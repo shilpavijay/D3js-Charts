@@ -85,7 +85,9 @@ var line = d3.svg.line()
 			})
 			.y(function(d){
 				return y(d.value)
-			});
+			})
+			// .interpolate("monotone");
+			.interpolate("step-after")
 
 var area = d3.svg.area()
 			.x(function(d){
@@ -95,7 +97,8 @@ var area = d3.svg.area()
 			.y0(height)
 			.y1(function(d){
 				return y(d.value)
-			});				
+			})
+			.interpolate("step-after");				
 
 function plot(params){
 
@@ -152,7 +155,7 @@ function plot(params){
 		.data([params.data])
 		.exit()
 		.remove()
-		
+
 	this.selectAll(".trendlines")
 		.data([params.data])
 		.exit()
