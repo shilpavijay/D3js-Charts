@@ -65,10 +65,47 @@ var y = d3.scale.linear()
 		.domain([0, d3.max(data,function(d){
 			return d.value;
 		})])
-		.range([height,0])
+		.range([height,0]);
+
+var xAxis = d3.svg.axis()
+			.scale(x)
+			.orient("botton")
+			.ticks(d3.time.days, 7)
+			.tickFormat(d3.time.format("%m/%d"))
+
+var yAxis = d3.svg.axis()
+			.scale(y)
+			.orient("left")		
+			.ticks(5);		
+
+var line = d3.svg.line()
+			.x(function(d){
+				var date = dateparser(d.date);
+				return x(date)
+			})
+			.y(function(d){
+				return y(d.value)
+			});
 
 function plot(params){
+
+	this.append("g")
+		.classed("x axis",true)
+		.attr("transform", "translate(0," + height + ")")
+		.call(params.axis.x)
+
+	this.append("g")
+		.classed("y axis",true)
+		.attr("transform", "translate(0,0)")
+		.call(params.axis.y)
+
 	//enter()
+	this.selectAll(".trendlines")
+		.data([params.data])
+		.enter()
+			.append("path")
+			.classed("trendlines", true);
+
 	this.selectAll(".point")
 		.data(params.data)
 		.enter()
@@ -77,6 +114,10 @@ function plot(params){
 			.attr("r",2)
 
 	//update()
+	this.selectAll(".trendlines")
+		.attr("d", function(d){
+			return line(d)
+		})
 	this.selectAll(".point")
 		.attr("cx", function(d){
 			var date = dateparser(d.date)
@@ -86,6 +127,11 @@ function plot(params){
 			return y(d.value);
 		});
 	//exit()
+	this.selectAll(".trendlines")
+		.data([params.data])
+		.exit()
+		.remove()
+
 	this.selectAll(".point")
 		.data(params.data)
 		.exit()
@@ -93,5 +139,9 @@ function plot(params){
 }	
 
 plot.call(chart,{
-	data: data
+	data: data,
+	axis: {
+		x: xAxis,
+		y: yAxis
+	}
 })	
