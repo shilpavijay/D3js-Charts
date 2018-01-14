@@ -28,6 +28,12 @@ var y = d3.scale.linear()
 		.domain([1,5])
 		.range([height,0]);	
 
+var responseScale = d3.scale.linear()
+					.domain(d3.extent(data,function(d){
+						return d.responses
+					}))
+					.range([2,15])		
+
 function plot(params){
 	//enter()
 	this.selectAll(".point")
@@ -38,7 +44,9 @@ function plot(params){
 
 	//update()
 	this.selectAll(".point")
-		.attr("r",8)
+		.attr("r",function(d){
+			return responseScale(d.responses)
+		})
 		.attr("cx",function(d){
 			return x(d.age)
 		})
