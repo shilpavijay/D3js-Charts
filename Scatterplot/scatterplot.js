@@ -35,30 +35,58 @@ var responseScale = d3.scale.linear()
 					.range([2,15])		
 
 function plot(params){
-	//enter()
-	this.selectAll(".point")
-		.data(params.data)
+	var self = this;
+	var donuts = d3.keys(params.data[0]).filter(function(k){
+		return k !== 'age' && k !== 'responses'
+	});
+
+	this.selectAll(".donut")
+		.data(donuts)
+		.enter()
+			.append("g")
+			.attr("class",function(d){
+				return d;
+			})
+			.classed("donut",true);
+
+	donuts.forEach(function(donut){
+		var g = self.selectAll("g."+donut);
+		var arr = params.data.map(function(d){
+				return {
+					key: donut,
+					value:d[donut],
+					age: d.age,
+					responses: d.responses
+				};
+		});
+
+		//enter()
+	g.selectAll(".responses")
+		.data(arr)
 		.enter()
 			.append("circle")
-			.classed("point",true)
+			.classed("responses",true);
 
 	//update()
-	this.selectAll(".point")
-		.attr("r",function(d){
-			return responseScale(d.responses)
-		})
-		.attr("cx",function(d){
-			return x(d.age)
-		})
-		.attr("cy",function(d){
-			return y(d.glazed)
-		})
-	//exit()
-	this.selectAll(".point")
-		.data(params.data)
-		.exit()
-		.remove()
+	g.selectAll(".responses")
+	  	.attr("r",function(d){
+	  		return responseScale(d.responses)
+	  	})
+	  	.attr("cx", function(d){
+	  		return x(d.age)
+	  	})
+	  	.attr("cy", function(d){
+	  		return y(d.value)
+	  	});
 
+	//exit()
+	g.selectAll(".responses")
+		.data(arr)
+		.exit()
+		.remove();
+	});
+	
+	
 }	
 
 plot.call(chart,{
