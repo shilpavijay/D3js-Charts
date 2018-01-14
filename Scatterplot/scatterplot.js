@@ -61,7 +61,9 @@ var yGridline = d3.svg.axis()
 				.scale(y)
 				.orient("left")
 				.tickSize(-width,0,0)	
-				.tickFormat("")											
+				.tickFormat("")
+
+var colorScale = d3.scale.category20()															
 
 function drawAxis(params){
 	if(params.initialize){
@@ -89,7 +91,6 @@ function drawAxis(params){
 	
 }
 
-
 function plot(params){
 
 	drawAxis.call(this,params);
@@ -99,6 +100,7 @@ function plot(params){
 		return k !== 'age' && k !== 'responses'
 	});
 
+	//enter() for <g>
 	this.selectAll(".donut")
 		.data(donuts)
 		.enter()
@@ -107,6 +109,12 @@ function plot(params){
 				return d;
 			})
 			.classed("donut",true);
+
+	//update() for <g>
+	this.selectAll(".donut")
+		.attr("fill",function(d,i){
+			return colorScale(i)
+		})			
 
 	donuts.forEach(function(donut){
 		var g = self.selectAll("g."+donut);
