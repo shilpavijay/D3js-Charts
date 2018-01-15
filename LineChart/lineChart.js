@@ -87,7 +87,7 @@ var line = d3.svg.line()
 				return y(d.value)
 			})
 			// .interpolate("monotone");
-			.interpolate("step-after")
+			.interpolate("linear")
 
 var area = d3.svg.area()
 			.x(function(d){
@@ -98,7 +98,7 @@ var area = d3.svg.area()
 			.y1(function(d){
 				return y(d.value)
 			})
-			.interpolate("step-after");				
+			.interpolate("linear");				
 
 function plot(params){
 
