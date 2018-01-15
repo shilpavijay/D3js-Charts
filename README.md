@@ -7,4 +7,4 @@ D3.js Charts
 - [An Interactive Bar Chart ](/ComplexBarChart)
 - [A line Chart](/LineChart)
 - [Scatter Plot](/Scatterplot)
-![Scatter Plot](/Scatterplot/scatterplot.js)
+  ![Scatter Plot](/Scatterplot/scatterplot.png)
