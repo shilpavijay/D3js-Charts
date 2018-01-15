@@ -49,3 +49,7 @@ body,html{
 .donut {
 	opacity: 0.15;
 }
+.chart-label {
+	font-size: 17px;
+	text-transform: capitalize;
+}
