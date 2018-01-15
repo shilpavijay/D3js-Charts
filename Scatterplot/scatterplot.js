@@ -63,7 +63,7 @@ var yGridline = d3.svg.axis()
 				.tickSize(-width,0,0)	
 				.tickFormat("")
 
-var colorScale = d3.scale.category20()															
+var colorScale = d3.scale.category10()															
 
 function drawAxis(params){
 	if(params.initialize){
@@ -114,7 +114,15 @@ function plot(params){
 	this.selectAll(".donut")
 		.attr("fill",function(d,i){
 			return colorScale(i)
-		})			
+		})
+		.on("mouseover",function(d,i){
+			d3.select(this)
+				.style("opacity",1)
+		})
+		.on("mouseout",function(d,i){
+			d3.select(this)
+				.style("opacity",0.15)
+		});			
 
 	donuts.forEach(function(donut){
 		var g = self.selectAll("g."+donut);
