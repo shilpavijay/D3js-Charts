@@ -4,10 +4,14 @@ body,html{
 	font-family: "Arial", sans-serif;
 	font-size: 0.95em;
 	text-align: center;
+	/*background-color: #c2ffc2;*/
+}
+
+h2{
+	color: green;
 }
 #chart{
 	background-color: #F5F2EB;
-	/*background-color: white;*/
 	border: 1px solid #CCC;
 }
 .bar {
@@ -31,26 +35,4 @@ body,html{
 	fill: none;
 	stroke: #ccc;
 	shape-rendering: crispEdges;
-}
-.point {
-	fill: blue;
-}
-.trendlines {
-	fill : none;
-	stroke: green;
-	stroke-width: 3px;
-	stroke-dasharray: 2px;
-}
-.fillArea {
-	opacity: 0.25;
-	fill: lime;
-	stroke: lime;
-	stroke-width: 1px;
-}
-.donut {
-	opacity: 0.15;
-}
-.chart-label {
-	font-size: 17px;
-	text-transform: capitalize;
 }
